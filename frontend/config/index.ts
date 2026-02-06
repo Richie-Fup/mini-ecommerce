@@ -26,7 +26,7 @@ export default {
       // This keeps webpack-dev-server overlay clean and does not affect functionality.
       chain.merge({
         ignoreWarnings: [
-          (warning) => {
+          (warning: any) => {
             const msg = String(warning?.message ?? '')
             const moduleResource = String(warning?.module?.resource ?? '')
             return (
@@ -37,6 +37,11 @@ export default {
           }
         ]
       })
+      
+      // Force dev server to only listen on localhost in development
+      if (process.env.NODE_ENV === 'development') {
+        chain.devServer.host('localhost')
+      }
     }
   }
 } satisfies UserConfigExport

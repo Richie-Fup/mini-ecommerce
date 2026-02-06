@@ -8,11 +8,15 @@ export default {
   mini: {},
   h5: {
     devServer: {
+      host: 'localhost',
       port: 10086,
       client: {
-        // Disable the full-screen overlay (warnings in particular are too noisy in dev)
         overlay: false
       }
+    },
+    webpackChain(chain) {
+      // Force dev server to only listen on localhost
+      chain.devServer.host('localhost')
     }
   }
 } satisfies UserConfigExport
