@@ -2,105 +2,15 @@ import Taro from '@tarojs/taro'
 import { Input, Text, View } from '@tarojs/components'
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { API_BASE_URL } from '../../config'
+import { API_PATHS, API_HEADERS } from '../../constants/api-constants'
+import { LOW_STOCK_THRESHOLD } from '../../constants/app'
+import type { Product, CreateOrderResponse, OrderDetails } from '../../types/types'
+import { requestApiData } from '../../api/client'
+import { formatMoney, asInt } from '../../utils/format'
+import { extractErrorMessage, extractProblemDetail } from '../../utils/error'
+import { cx } from '../../utils/common'
+import { generateIdempotencyKey } from '../../utils/idempotency'
 import './index.scss'
-
-const LOW_STOCK_THRESHOLD = 3
-
-type Product = {
-  id: number
-  name: string
-  price: number
-  stock: number
-}
-
-type CreateOrderResponse = {
-  orderId: number
-  totalPrice: number
-}
-
-type ProblemDetail = {
-  detail?: string
-  title?: string
-  status?: number
-  path?: string
-  timestamp?: string
-}
-
-type OrderDetails = {
-  id: number
-  productId: number
-  quantity: number
-  unitPrice: number
-  totalPrice: number
-  createdAt: string
-}
-
-function cx(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(' ')
-}
-
-function asInt(input: string): number | null {
-  const n = Number(input)
-  if (!Number.isFinite(n)) return null
-  const i = Math.floor(n)
-  return i > 0 ? i : null
-}
-
-function formatMoney(n: number): string {
-  if (!Number.isFinite(n)) return String(n)
-  return `$${n.toFixed(2)}`
-}
-
-function extractErrorMessage(err: unknown): string {
-  if (err instanceof Error && err.message) return err.message
-  if (typeof err === 'string') return err
-  try {
-    return JSON.stringify(err)
-  } catch {
-    return 'Unknown error'
-  }
-}
-
-function extractProblemDetail(err: unknown): string | null {
-  // Best-effort: Spring ProblemDetail might be at err.response.data.detail
-  if (typeof err !== 'object' || err === null) return null
-  const anyErr = err as any
-  const detail = anyErr?.response?.data?.detail
-  return typeof detail === 'string' && detail ? detail : null
-}
-
-function is2xx(statusCode: number | undefined) {
-  return typeof statusCode === 'number' && statusCode >= 200 && statusCode < 300
-}
-
-async function requestApiData<T>(opts: Parameters<typeof Taro.request>[0]): Promise<T> {
-  const res = await Taro.request<any>(opts)
-  // In weapp, Taro.request resolves even when HTTP status is 4xx/5xx.
-  if (!is2xx((res as any).statusCode)) {
-    const pd: ProblemDetail | undefined = res?.data
-    const msg =
-      (typeof pd?.detail === 'string' && pd.detail) ||
-      (typeof pd?.title === 'string' && pd.title) ||
-      `Request failed (status ${(res as any).statusCode ?? 'unknown'})`
-    throw new Error(msg)
-  }
-  return res?.data as T
-}
-
-function generateIdempotencyKey(): string {
-  // Prefer crypto-quality randomness in H5.
-  const c: any = typeof crypto !== 'undefined' ? crypto : null
-  if (c?.randomUUID) return c.randomUUID()
-  if (c?.getRandomValues) {
-    const bytes = new Uint8Array(16)
-    c.getRandomValues(bytes)
-    return Array.from(bytes)
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('')
-  }
-  // Last resort fallback.
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`
-}
 
 export default function IndexPage() {
   const isWeb = Taro.getEnv() === Taro.ENV_TYPE.WEB
@@ -135,7 +45,7 @@ export default function IndexPage() {
     setErrorMessage(null)
     try {
       const data = await requestApiData<Product[]>({
-        url: `${API_BASE_URL}/products`,
+        url: `${API_BASE_URL}${API_PATHS.PRODUCTS}`,
         method: 'GET'
       })
       setProducts(data ?? [])
@@ -170,7 +80,7 @@ export default function IndexPage() {
   async function fetchOrderDetails(orderId: number) {
     try {
       const data = await requestApiData<OrderDetails>({
-        url: `${API_BASE_URL}/orders/${orderId}`,
+        url: `${API_BASE_URL}${API_PATHS.ORDER_BY_ID(orderId)}`,
         method: 'GET'
       })
       setOrderDetails(data ?? null)
@@ -204,10 +114,13 @@ export default function IndexPage() {
     setPlacing(true)
     try {
       const data = await requestApiData<CreateOrderResponse>({
-        url: `${API_BASE_URL}/orders`,
+        url: `${API_BASE_URL}${API_PATHS.ORDERS}`,
         method: 'POST',
         data: { productId: selectedProduct.id, quantity: qty },
-        header: { 'content-type': 'application/json', 'Idempotency-Key': key }
+        header: {
+          [API_HEADERS.CONTENT_TYPE]: 'application/json',
+          [API_HEADERS.IDEMPOTENCY_KEY]: key
+        }
       })
       setSuccessMessage(
         `Order confirmed · ID ${data.orderId} · Total ${formatMoney(data.totalPrice)}`
