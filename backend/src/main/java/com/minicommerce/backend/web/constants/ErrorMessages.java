@@ -1,4 +1,4 @@
-package com.minicommerce.backend.web.error;
+package com.minicommerce.backend.web.constants;
 
 /**
  * Centralized error messages to avoid duplication and keep wording consistent.
@@ -11,5 +11,4 @@ public final class ErrorMessages {
   public static final String IDEMPOTENCY_KEY_REUSED_DIFFERENT_PAYLOAD =
       "Idempotency-Key was already used with a different payload";
 }
-
 

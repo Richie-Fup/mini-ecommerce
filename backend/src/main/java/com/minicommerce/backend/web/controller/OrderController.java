@@ -5,7 +5,7 @@ import com.minicommerce.backend.service.OrderService;
 import com.minicommerce.backend.web.dto.CreateOrderRequest;
 import com.minicommerce.backend.web.dto.CreateOrderResponse;
 import com.minicommerce.backend.web.dto.OrderResponse;
-import com.minicommerce.backend.web.ApiHeaders;
+import com.minicommerce.backend.web.constants.ApiHeaders;
 import com.minicommerce.backend.web.mapper.OrderMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -5,7 +5,7 @@ import com.minicommerce.backend.domain.Product;
 import com.minicommerce.backend.repository.IdempotencyStore;
 import com.minicommerce.backend.repository.OrderRepository;
 import com.minicommerce.backend.repository.ProductRepository;
-import com.minicommerce.backend.web.error.ErrorMessages;
+import com.minicommerce.backend.web.constants.ErrorMessages;
 import com.minicommerce.backend.web.error.InsufficientStockException;
 import com.minicommerce.backend.web.error.NotFoundException;
 import java.math.BigDecimal;

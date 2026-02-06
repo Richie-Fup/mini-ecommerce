@@ -1,7 +1,7 @@
 package com.minicommerce.backend.repository;
 
 import com.minicommerce.backend.domain.Order;
-import com.minicommerce.backend.web.error.ErrorMessages;
+import com.minicommerce.backend.web.constants.ErrorMessages;
 import com.minicommerce.backend.web.error.IdempotencyKeyConflictException;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;

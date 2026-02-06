@@ -1,4 +1,4 @@
-package com.minicommerce.backend.web;
+package com.minicommerce.backend.web.constants;
 
 /**
  * API header names used by this service.
@@ -8,5 +8,4 @@ public final class ApiHeaders {
 
   public static final String IDEMPOTENCY_KEY = "Idempotency-Key";
 }
-
 
