@@ -68,8 +68,7 @@ public class ApiExceptionHandler {
   public ProblemDetail handleUnexpected(Exception ex, HttpServletRequest req) {
     var pd = ProblemDetail.forStatusAndDetail(
         HttpStatus.INTERNAL_SERVER_ERROR,
-        "Unexpected error");
-    pd.setProperty("exception", ex.getClass().getName());
+        "An unexpected error occurred");
     enrich(pd, req);
     return pd;
   }

@@ -1,10 +1,29 @@
 server:
   port: 8080
+  # Limit request size to prevent DoS attacks
+  max-http-header-size: 8KB
+  # Limit multipart file size
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
 
 spring:
   jackson:
     mapper:
       accept-case-insensitive-properties: true
+  # Limit HTTP request body size
+  codec:
+    max-in-memory-size: 1MB
+
+# Application-specific configuration
+app:
+  cors:
+    # Configure allowed origins for CORS
+    # In production, replace with actual frontend URLs
+    allowed-origins:
+      - "http://localhost:10086"
+      - "http://localhost:3000"
 
 logging:
   level:
