@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import { Input, Text, View } from '@tarojs/components'
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { API_BASE_URL } from '../../config'
 import { API_PATHS, API_HEADERS } from '../../constants/api-constants'
 import { LOW_STOCK_THRESHOLD } from '../../constants/app'
@@ -8,7 +8,7 @@ import type { Product, CreateOrderResponse, OrderDetails } from '../../types/typ
 import { requestApiData } from '../../api/client'
 import { formatMoney, asInt } from '../../utils/format'
 import { extractErrorMessage, extractProblemDetail } from '../../utils/error'
-import { cx } from '../../utils/common'
+import { cx, debounce } from '../../utils/common'
 import { generateIdempotencyKey } from '../../utils/idempotency'
 import './index.scss'
 
@@ -89,7 +89,7 @@ export default function IndexPage() {
     }
   }
 
-  async function placeSelectedOrder() {
+  const placeSelectedOrder = useCallback(async () => {
     setSuccessMessage(null)
     setErrorMessage(null)
     setOrderDetails(null)
@@ -133,7 +133,19 @@ export default function IndexPage() {
     } finally {
       setPlacing(false)
     }
+  }, [selectedProduct, qty, idempotencyKey])
+
+  // Create debounced version of placeSelectedOrder with 500ms delay
+  const debouncedPlaceOrderRef = useRef<ReturnType<typeof debounce>>()
+  const placeSelectedOrderRef = useRef(placeSelectedOrder)
+  placeSelectedOrderRef.current = placeSelectedOrder
+
+  if (!debouncedPlaceOrderRef.current) {
+    debouncedPlaceOrderRef.current = debounce(() => {
+      void placeSelectedOrderRef.current()
+    }, 500)
   }
+  const debouncedPlaceOrder = debouncedPlaceOrderRef.current
 
   useEffect(() => {
     void loadProducts()
@@ -280,7 +292,7 @@ export default function IndexPage() {
             <View
               className={cx('primaryBtn', 'primaryBtnGold', !canPlace && 'primaryBtnDisabled')}
               onClick={() => {
-                if (canPlace) void placeSelectedOrder()
+                if (canPlace) debouncedPlaceOrder()
               }}
             >
               <Text>{placing ? 'Placing…' : 'Place order'}</Text>
