@@ -1,0 +1,32 @@
+# ---- Node ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- Build output ----
+dist/
+.output/
+
+# ---- Taro / tooling caches ----
+.temp/
+.rn_temp/
+.cache/
+.swc/
+
+# ---- Local env ----
+.env
+.env.*
+
+# ---- MiniProgram local/private config ----
+project.private.config.json
+
+# ---- IDE ----
+.idea/
+*.iml
+
+# ---- OS ----
+.DS_Store
+
+

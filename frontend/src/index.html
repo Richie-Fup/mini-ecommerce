@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"
+    />
+    <title>Mini E-commerce</title>
+    <script>
+      // Taro H5 uses px -> rem transform (rootValue is 40 for designWidth 750 by default).
+      // Ensure <html> has a proper root font-size, otherwise everything becomes tiny.
+      (function () {
+        var DESIGN_WIDTH = 750
+        var ROOT_VALUE = 40
+        function setRootFontSize() {
+          var docEl = document.documentElement
+          var width = docEl.clientWidth || 375
+          // Cap to design width to avoid huge UI on desktop.
+          if (width > DESIGN_WIDTH) width = DESIGN_WIDTH
+          docEl.style.fontSize = (width / DESIGN_WIDTH) * ROOT_VALUE + 'px'
+        }
+        setRootFontSize()
+        window.addEventListener('resize', setRootFontSize, { passive: true })
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
+
+

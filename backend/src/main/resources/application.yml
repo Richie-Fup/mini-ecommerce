@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  jackson:
+    mapper:
+      accept-case-insensitive-properties: true
+
+logging:
+  level:
+    root: INFO
+
+

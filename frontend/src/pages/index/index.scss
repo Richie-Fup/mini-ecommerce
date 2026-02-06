@@ -1,0 +1,354 @@
+@import '../../styles/theme';
+
+.page {
+  /* WXSS does not reliably support CSS custom properties or env(); use a fixed safe padding. */
+  padding: 12px 18px 260px; /* leave room for bottom order bar */
+}
+
+.hero {
+  border-radius: 20px;
+  padding: 14px 16px 14px;
+  background: linear-gradient(135deg, $el-navy, #061227);
+  box-shadow: $el-shadow;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.brandRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.chipBtn {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  user-select: none;
+}
+
+.chipBtnDisabled {
+  opacity: 0.55;
+}
+
+.brandTitle {
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.brandSub {
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.accent {
+  color: $el-gold;
+}
+
+.tiny {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 10px;
+}
+
+.sectionTitle {
+  margin: 10px 2px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: $el-navy;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.sectionTitle::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(198, 166, 106, 0.65), rgba(11, 31, 58, 0.10));
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid $el-border;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(11, 31, 58, 0.05);
+}
+
+.cardSelected {
+  border-color: rgba(198, 166, 106, 0.55);
+  box-shadow: 0 10px 22px rgba(198, 166, 106, 0.12);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.name {
+  color: $el-navy;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.metaRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.price {
+  color: $el-navy;
+  font-weight: 700;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(11, 31, 58, 0.06);
+  color: $el-navy;
+  border: 1px solid rgba(11, 31, 58, 0.08);
+}
+
+.badgeLow {
+  background: rgba(198, 166, 106, 0.12);
+  border-color: rgba(198, 166, 106, 0.35);
+}
+
+.badgeOut {
+  background: rgba(165, 10, 10, 0.08);
+  border-color: rgba(165, 10, 10, 0.18);
+  color: #7a0c0c;
+}
+
+.metaHint {
+  color: $el-muted;
+  font-size: 13px;
+}
+
+.ghostBtn {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(198, 166, 106, 0.55);
+  background: rgba(255, 255, 255, 0.55);
+  color: $el-navy;
+  font-size: 13px;
+  font-weight: 700;
+  user-select: none;
+}
+
+.ghostBtnDisabled {
+  opacity: 0.45;
+}
+
+.msg {
+  margin-top: 14px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  background: rgba(11, 31, 58, 0.06);
+  border: 1px solid rgba(11, 31, 58, 0.08);
+  color: $el-navy;
+  font-size: 14px;
+}
+
+.error {
+  background: rgba(165, 10, 10, 0.06);
+  border-color: rgba(165, 10, 10, 0.14);
+  color: #7a0c0c;
+}
+
+.success {
+  background: rgba(35, 120, 4, 0.06);
+  border-color: rgba(35, 120, 4, 0.14);
+  color: #1f5f06;
+}
+
+.orderBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 12px 14px 14px;
+  background: rgba(251, 247, 240, 0.98);
+  border-top: 1px solid rgba(11, 31, 58, 0.10);
+}
+
+.orderCard {
+  border-radius: 18px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid rgba(198, 166, 106, 0.25);
+  box-shadow: 0 10px 22px rgba(11, 31, 58, 0.08);
+}
+
+/* #ifdef weapp */
+/* WeChat Mini Program renderer may look blurry with heavy transparency + shadows.
+   Use more solid surfaces and tighter shadows to keep text crisp. */
+.card {
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(11, 31, 58, 0.06);
+}
+.hero {
+  box-shadow: 0 8px 20px rgba(11, 31, 58, 0.14);
+}
+.orderBar {
+  background: #fbf7f0;
+}
+.orderCard {
+  box-shadow: 0 8px 18px rgba(11, 31, 58, 0.10);
+}
+/* #endif */
+
+.orderTitle {
+  font-weight: 800;
+  color: $el-navy;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.orderSub {
+  color: $el-muted;
+  font-size: 13px;
+  display: block;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.stepBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(11, 31, 58, 0.18);
+  background: rgba(11, 31, 58, 0.03);
+  color: $el-navy;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  user-select: none;
+}
+
+.stepBtnDisabled {
+  opacity: 0.4;
+}
+
+.qtyInput {
+  width: 96px;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid rgba(11, 31, 58, 0.18);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Taro H5 Input renders a nested <input>; ensure text is vertically centered */
+.qtyInput :global(input),
+.qtyInput :global(.taro-input__input) {
+  height: 40px;
+  line-height: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+}
+
+/* H5 native input (used to avoid WebComponent input vertical alignment issues) */
+.qtyInputNative {
+  width: 96px;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid rgba(11, 31, 58, 0.18);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+  box-sizing: border-box;
+  appearance: none;
+  outline: none;
+}
+
+.orderFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.total {
+  color: $el-navy;
+  font-weight: 800;
+}
+
+.primaryBtn {
+  flex: 1;
+  height: 44px;
+  line-height: 44px;
+  border-radius: 14px;
+  background: $el-navy;
+  color: #fff;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.primaryBtnGold {
+  background: linear-gradient(180deg, #d8bf86, $el-gold);
+  color: #13233a;
+}
+
+.primaryBtnDisabled {
+  opacity: 0.55;
+}
+
+

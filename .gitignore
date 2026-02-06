@@ -1,0 +1,30 @@
+.DS_Store
+
+### IDE / Editor
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+### Env
+.env
+.env.*
+
+### Backend (Java / Maven)
+backend/target/
+*.log
+
+### Frontend (Node / Taro)
+frontend/node_modules/
+frontend/dist/
+frontend/.temp/
+frontend/.rn_temp/
+frontend/.cache/
+frontend/.output/
+frontend/.swc/
+
+### MiniProgram local/private config
+frontend/project.private.config.json
+
+
