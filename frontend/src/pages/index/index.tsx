@@ -18,12 +18,6 @@ type CreateOrderResponse = {
   totalPrice: number
 }
 
-type ApiResponse<T> = {
-  status: 'OK' | 'CREATED' | string
-  data: T
-  timestamp?: string
-}
-
 type ProblemDetail = {
   detail?: string
   title?: string
@@ -90,8 +84,7 @@ async function requestApiData<T>(opts: Parameters<typeof Taro.request>[0]): Prom
       `Request failed (status ${(res as any).statusCode ?? 'unknown'})`
     throw new Error(msg)
   }
-  const body: ApiResponse<T> | undefined = res?.data
-  return body?.data as T
+  return res?.data as T
 }
 
 function generateIdempotencyKey(): string {
