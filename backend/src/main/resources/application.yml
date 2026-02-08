@@ -24,6 +24,21 @@ app:
     allowed-origins:
       - "http://localhost:10086"
       - "http://localhost:3000"
+  cache:
+    # Cache configuration for products
+    products:
+      # Cache name
+      name: "products"
+      # Maximum number of entries in cache
+      max-size: 100
+      # Time to live in seconds (5 minutes)
+      ttl-seconds: 300
+  rate-limit:
+    # Rate limiting configuration
+    # Maximum requests per minute per IP
+    requests-per-minute: 60
+    # Burst size (allows short bursts)
+    burst-size: 10
 
 logging:
   level:

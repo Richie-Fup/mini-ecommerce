@@ -11,6 +11,7 @@ import com.minicommerce.backend.web.error.NotFoundException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class OrderService {
   private final ProductRepository productRepository;
   private final OrderRepository orderRepository;
   private final IdempotencyStore idempotencyStore;
+  private final CacheManager cacheManager;
 
   /**
    * Create an order with idempotency. Caller must provide a non-blank idempotency key.
@@ -30,12 +32,25 @@ public class OrderService {
     if (idempotencyKey == null || idempotencyKey.isBlank()) {
       throw new IllegalArgumentException(ErrorMessages.IDEMPOTENCY_KEY_REQUIRED);
     }
-    return idempotencyStore.getOrCreate(
+    Order order = idempotencyStore.getOrCreate(
         idempotencyKey,
         productId,
         quantity,
-        () -> createOrder(productId, quantity)
+        () -> {
+          Order newOrder = createOrder(productId, quantity);
+          // Clear cache after successful order creation (stock changed)
+          evictProductsCache();
+          return newOrder;
+        }
     );
+    return order;
+  }
+
+  private void evictProductsCache() {
+    var cache = cacheManager.getCache("products");
+    if (cache != null) {
+      cache.clear();
+    }
   }
 
   private Order createOrder(long productId, int quantity) {
